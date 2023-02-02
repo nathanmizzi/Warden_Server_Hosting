@@ -1,0 +1,29 @@
+{% extends 'HTML/Base.html' %}
+
+{% block content %}
+
+    <body>
+        <h1>Login: </h1>
+
+        <form class="mt-2" method="post">
+            {% csrf_token %}
+
+            <div class="form-row col-sm-4">
+                <label for="Username">Username:</label>
+                <input class="form-control" type="text" name="Username" id="Username">
+            </div>
+
+            <div class="form-row col-sm-4">
+                <label for="Username">Password:</label>
+                <input class="form-control" type="password" name="Password" id="Password">
+            </div>
+
+            <button type="submit" class="btn btn-info mt-5">Log In!</button>
+
+        </form>
+
+    </body>
+
+{% endblock %}
+
+

@@ -1,0 +1,15 @@
+{% extends 'HTML/Base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <h1>Add a New Server: </h1>
+
+    <form method="post" class="mt-4">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <input type="submit" value="Create" class="btn btn-info mt-4">
+    </form>
+
+{% endblock %}

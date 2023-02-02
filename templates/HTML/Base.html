@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Warden</title>
+    {% load static %}
+    {% load bootstrap4 %}
+    {% load bootstrap_icons %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript jquery='full' %}
+    <link rel="stylesheet" href="{% static '/CSS/custom.css' %}">
+</head>
+
+
+
+<body style="background-image: url({% static 'favicon/Images/MC_Background.jpg' %}); background-repeat: no-repeat; background-attachment: fixed; overflow:auto; overflow-x: hidden; background-size: cover">
+
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-info">
+
+      <a class="navbar-brand" href="/">
+        <img src="{% static 'favicon/Images/Warden_Face.png' %}" class="mr-2" style="width: 2.5em; height: 2.5em; border-radius: 10%;">
+          Warden Server Hosting
+      </a>
+
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+          </li>
+
+          {% if user.is_authenticated %}
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Server Management
+                </a>
+
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="addServer">Add Server</a>
+                  <a class="dropdown-item" href="#">Remove Server</a>
+                </div>
+              </li>
+          {% endif %}
+
+
+        </ul>
+
+        <div class="form-inline my-2 my-lg-0">
+
+          {% if user.is_authenticated %}
+
+              <p class="nav-item navbar-nav text-light mr-3" >Logged In as: {{ userName }}</p>
+
+              <ul class="nav-item navbar-nav">
+                <a class="nav-link text-light" href="Logout">{% bs_icon 'person' size='1.5em' %} Logout</a>
+              </ul>
+          {% else %}
+              <ul class="nav-item navbar-nav">
+                <a class="nav-link" href="login">{% bs_icon 'person' size='1.5em' %} Login</a>
+              </ul>
+          {% endif %}
+
+        </div>
+
+      </div>
+    </nav>
+    </header>
+
+    <div class="container col-11 mt-2 text-light">
+        {% block content %}
+
+        {% endblock %}
+    </div>
+</body>
+
+</html>
