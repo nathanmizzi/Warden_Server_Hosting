@@ -1,0 +1,21 @@
+{% extends 'HTML/Base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <script type="text/javascript" src="{% static '/JSS/serverConsole.js' %}"></script>
+
+    <h1>Server Console: </h1>
+
+    <div style="background-color: #263038" class="mt-4 rCorners">
+        <p class="ml-2 p-1 mb-0">Console:</p>
+        <div id="consolePrevious" class="consoleBackground text-white w-100 consolePrevious"></div>
+
+        <div id="consoleCurrent" class="consoleBackground text-white w-100 consoleCurrent rCorners2 ml-1" style="cursor: text">
+            {{ userName }}> <span contentEditable="true" id="consoleInput"
+                                class="consoleBackground text-white terminalBlinking" style="min-width: 10em;
+                                 border: 0; outline: none;  caret-color: transparent;" autofocus></span>
+        </div>
+
+    </div>
+{% endblock %}

@@ -21,6 +21,7 @@ def base(request):
 def home(request):
     return render(request, './HTML/Homepage.html')
 
+@login_required
 def addServer(request):
 
     form = AddServerForm()
@@ -37,6 +38,13 @@ def addServer(request):
         pass
 
     return render(request, 'HTML/AddServerForm.html', context)
+
+@login_required
+def serverConsole(request, serverID):
+
+    context = {"userName": request.user.first_name}
+
+    return render(request, 'HTML/ServerConsole.html', context)
 
 def Login(request):
 
@@ -55,7 +63,10 @@ def Login(request):
 
     return redirect('base')
 
+
 def Logout(request):
     logout(request)
     return render(request, '../templates/registration/Logout.html')
+
+
 

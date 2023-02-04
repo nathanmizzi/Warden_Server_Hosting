@@ -29,6 +29,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('django.contrib.auth.urls')),
     path('', views.base, name='base'),
+    path('viewConsole/<int:serverID>', views.serverConsole, name='view_console'),
     path('login', views.Login, name='Login'),
     path('Logout', views.Logout, name='Logout'),
     path('addServer', views.addServer, name='add_server')

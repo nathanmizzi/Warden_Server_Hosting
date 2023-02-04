@@ -41,3 +41,66 @@
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+.consoleBackground {
+    background-color: #2D3943;
+}
+
+.consolePrevious {
+    width: 10em;
+    height: 30em;
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+.consolePrevious::-webkit-scrollbar {
+    display: none;
+}
+
+.consoleCurrent {
+    width: 10em;
+    min-height: 2em;
+}
+
+.rCorners {
+   border-radius: 10px 10px 10px 10px;
+}
+
+.rCorners2 {
+   border-radius: 0px 0px 10px 10px;
+}
+
+.terminalBlinking::after {
+  content: "";
+  top: 0;
+  right: -15px;
+  /* Remove display: inline-block if not required to be on the same line as text etc */
+  display: inline-block;
+  background-color: #606060;
+  vertical-align: top;
+  width: 10px;
+  /* Set height to the line height of .text */
+  height: 24px;
+  /*
+  Animation paramaters:
+  blink = animation-name,
+  1s = animation-duration,
+  step-end = animation-timing-function,
+  infinite = animation-iteration-count
+  */
+  -webkit-animation: blink 1s step-end infinite;
+  animation: blink 1s step-end infinite;
+  z-index: 10;
+}
+
+@-webkit-keyframes blink {
+  0% { opacity: 1.0; }
+  50% { opacity: 0.0; }
+  100% { opacity: 1.0; }
+}
+
+@keyframes blink {
+  0% { opacity: 1.0; }
+  50% { opacity: 0.0; }
+  100% { opacity: 1.0; }
+}
