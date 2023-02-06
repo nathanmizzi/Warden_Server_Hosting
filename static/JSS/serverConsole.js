@@ -1,5 +1,11 @@
 let buttonClicked = false;
 
+function clearConsoleContent() {
+    consoleElement = document.getElementById("consolePrevious");
+    consoleElement.innerText = "";
+}
+
+// TODO: Make url variables dynamic depending on the serverID
 function getServerLog() {
 
     const Http = new XMLHttpRequest();
@@ -25,26 +31,36 @@ function getServerLog() {
 
 }
 
-
 function enterCommand(){
+    commandInputBox = document.getElementById("consoleInput")
+    commandText = commandInputBox.innerText
+
+    console.log("Command Sent: " + commandText)
+
+    const Http = new XMLHttpRequest();
+    const url = 'http://127.0.0.1:9000/api/v1/commandServer/1';
+
+    Http.open("GET", url);
+    Http.setRequestHeader("CommandContent", commandText)
+    Http.send();
 }
 
 function addLine(stringToAdd){
 
-    username = document.getElementById("consoleCurrent").innerText.split(" ")[0]
-    console = document.getElementById("consolePrevious")
-    input = document.getElementById("consoleInput")
+    username = document.getElementById("consoleCurrent").innerText.split(" ")[0];
+    consoleElement = document.getElementById("consolePrevious");
+    input = document.getElementById("consoleInput");
 
-    lineToAdd = document.createElement("p")
-    lineToAdd.classList.add("p-0")
-    lineToAdd.classList.add("ml-2")
-    lineToAdd.classList.add("mb-0")
-    lineToAdd.innerText = stringToAdd
+    lineToAdd = document.createElement("p");
+    lineToAdd.classList.add("p-0");
+    lineToAdd.classList.add("ml-2");
+    lineToAdd.classList.add("mb-0");
+    lineToAdd.innerText = stringToAdd;
 
-    input.innerText = ""
-    console.appendChild(lineToAdd)
+    input.innerText = "";
+    consoleElement.appendChild(lineToAdd);
 
-    console.scrollTop = console.scrollHeight;
+    consoleElement.scrollTop = consoleElement.scrollHeight;
 
 }
 
@@ -69,7 +85,9 @@ $(document).ready(function () {
     consoleField.addEventListener("keypress", function(event) {
       if (event.key === "Enter") {
         event.preventDefault();
-        addLine(username + consoleField.innerText);
+        enterCommand();
+        clearConsoleContent();
+        getServerLog();
       }
     });
 

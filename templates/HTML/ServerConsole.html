@@ -11,10 +11,14 @@
         <p class="ml-2 p-1 mb-0">Console:</p>
         <div id="consolePrevious" class="consoleBackground text-white w-100 consolePrevious"></div>
 
-        <div id="consoleCurrent" class="consoleBackground text-white w-100 consoleCurrent rCorners2 ml-1" style="cursor: text">
-            {{ userName }}> <span contentEditable="true" id="consoleInput"
-                                class="consoleBackground text-white terminalBlinking" style="min-width: 10em;
-                                 border: 0; outline: none;  caret-color: transparent;" autofocus></span>
+        <div id="consoleCurrent" class="consoleBackground text-white w-100 consoleCurrent rCorners2 ml-0" style="cursor: text">
+
+            <span class="ml-2">{{ userName }}></span>
+
+            <span contentEditable="true" id="consoleInput"
+                class="consoleBackground text-white terminalBlinking" style="
+                border: 0; outline: none;  caret-color: transparent;" autofocus>
+            </span>
         </div>
 
     </div>
