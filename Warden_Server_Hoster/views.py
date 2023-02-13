@@ -1,9 +1,8 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-
 from Warden_App.models import Server, AddServerForm
-
+import json
 
 @login_required
 def base(request):
@@ -45,6 +44,34 @@ def serverConsole(request, serverID):
     context = {"userName": request.user.first_name}
 
     return render(request, 'HTML/ServerConsole.html', context)
+
+@login_required
+def enableServer(request):
+
+    if request.is_ajax and request.method == "POST":
+
+        print("Enable Server Called!")
+
+        serverID = request.POST.get("serverID")
+
+        if serverID is not None:
+
+            server = Server.objets.get(pk=serverID)
+            server.Status = True
+            server.save()
+
+            response = {"status": True}
+
+            response = json.loads(response)
+
+            return response
+
+        else:
+            # TODO: Implement an error page and redirect to it instead
+            return redirect("base")
+
+    else:
+        return redirect("base")
 
 def Login(request):
 
