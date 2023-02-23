@@ -34,4 +34,5 @@ urlpatterns = [
     path('Logout', views.Logout, name='Logout'),
     path('addServer', views.addServer, name='add_server'),
     path('enableServer', views.enableServer, name='enable_server'),
-  ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    path('disableServer', views.disableServer, name='disable_server'),
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

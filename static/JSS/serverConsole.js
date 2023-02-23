@@ -17,8 +17,14 @@ function getServerLog() {
     Http.onreadystatechange = (e) => {
 
         if (Http.readyState === 4) {
-            var response = JSON.parse(Http.responseText)
-            log = response["content"]
+
+            index = Http.responseText.indexOf("}")
+
+            HTTPResponse = Http.responseText.slice(0, index + 1)
+
+            Parsedresponse = JSON.parse(HTTPResponse)
+
+            log = Parsedresponse["content"]
             parsedConsoleOutput = log.split("\n")
 
             addLine(log)

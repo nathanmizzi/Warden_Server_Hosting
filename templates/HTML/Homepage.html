@@ -39,21 +39,27 @@
                                 <h5 class="card-title">{{ server.Name }}</h5>
 
                                 <p class="card-text" style="min-height: 5em;">{{ server.Description }}</p>
-                                  <p class="card-text">Status:
+                                  <p id="statusP{{ server.pk }}" class="card-text">Status:
                                       {% if server.Status == True %}
-                                        <span class="badge badge-success">Online</span>
+                                        <span id="onStatus{{ server.pk }}" class="badge badge-success onStatus{{ server.pk }}">Online</span>
                                       {% else %}
-                                        <span class="badge badge-danger">Offline</span>
+                                        <span id="offStatus{{ server.pk }}" class="badge badge-danger offStatus{{ server.pk }}">Offline</span>
                                       {% endif %}
                                 </p>
 
-                                {% if server.Status == False %}
-                                    <a href="#" class="btn btn-success mt-2" onclick="startServer({{ server.pk }})">Start Server</a>
-                                {% else %}
-                                    <a href="#" class="btn btn-danger mt-2">Stop Server</a>
-                                {% endif %}
-                                <a href="viewConsole/{{ server.pk }}" class="btn mt-2 ml-2" style="background-color: blue; color: white">View Console</a>
-                          </div>
+                                <div id="btnContainer{{ server.pk }}">
+                                    {% if server.Status == False %}
+                                        <a href="#" id="startServer{{ server.pk }}" class="btn btn-success mt-2" onclick="startServer({{ server.pk }})">Start Server</a>
+                                    {% else %}
+                                        <a href="#" id="stopServer{{ server.pk }}" class="btn btn-danger mt-2" onclick="stopServer({{ server.pk }})">Stop Server</a>
+                                        <a href="viewConsole/{{ server.pk }}" id="console{{ server.pk }}" class="btn mt-2 ml-2" style="background-color: blue; color: white">View Console</a>
+                                    {% endif %}
+
+                                    <a href="viewConsole/{{ server.pk }}" id="console{{ server.pk }}" class="btn mt-2 ml-2" style="background-color: blue; color: white" hidden>View Console</a>
+                                </div>
+
+
+                              </div>
                           </div>
 
                         </div>
