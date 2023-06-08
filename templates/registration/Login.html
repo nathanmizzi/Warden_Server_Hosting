@@ -3,24 +3,34 @@
 {% block content %}
 
     <body>
-        <h1>Login: </h1>
 
-        <form class="mt-2" method="post">
-            {% csrf_token %}
 
-            <div class="form-row col-sm-4">
-                <label for="Username">Username:</label>
-                <input class="form-control" type="text" name="Username" id="Username">
+        <div id="loginDiv" style="background-color: #263038; margin-top: 10em; max-width: 40em; margin-left: 20em;" class="rCorners">
+
+            <p class="ml-2 p-1 mb-0">Login:</p>
+
+            <div class="consoleBackground rCorners text-center pb-4 pt-4" style="min-height: 13em;">
+
+                <form class="mt-2" method="post">
+                    {% csrf_token %}
+
+                    <div style="text-align: center;" class="form-row">
+                        <label class="col-4" for="Username">Username:</label>
+                        <input class="form-control col-6" type="text" name="Username" id="Username">
+                    </div>
+
+                    <div class="form-row mt-4">
+                        <label class="col-4" for="Username">Password:</label>
+                        <input class="form-control col-6" type="password" name="Password" id="Password">
+                    </div>
+
+                    <button type="submit" class="btn btn-info mt-5">Log In!</button>
+
+                </form>
+
             </div>
 
-            <div class="form-row col-sm-4">
-                <label for="Username">Password:</label>
-                <input class="form-control" type="password" name="Password" id="Password">
-            </div>
-
-            <button type="submit" class="btn btn-info mt-5">Log In!</button>
-
-        </form>
+        </div>
 
     </body>
 
