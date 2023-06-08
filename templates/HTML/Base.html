@@ -10,11 +10,11 @@
     {% bootstrap_css %}
     {% bootstrap_javascript jquery='full' %}
     <link rel="stylesheet" href="{% static '/CSS/custom.css' %}">
+    <script type="text/javascript" src="{% static '/JSS/base.js' %}"></script>
 </head>
 
 
-
-<body style="background-image: url({% static 'favicon/Images/MC_Background.jpg' %}); background-repeat: no-repeat; background-attachment: fixed; overflow:auto; overflow-x: hidden; background-size: cover">
+<body style=" background-image: url({% static 'favicon/Images/MC_Background.jpg' %}); background-repeat: no-repeat; background-attachment: fixed; overflow:auto; overflow-x: hidden; background-size: cover";>
 
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark bg-info">
@@ -73,11 +73,26 @@
     </nav>
     </header>
 
-    <div class="container col-11 mt-2 text-light">
-        {% block content %}
+    <div class="pageLoaderContainer">
 
-        {% endblock %}
+        <div id="pageLoader" class="pageLoader"></div>
+
+        <div id="sourceContainer" class="container col-11 mt-2 text-light" hidden>
+            {% block content %}
+
+            {% endblock %}
+        </div>
+
     </div>
+
+    <div id="noConnectionDiv" style="background-color: #263038" class="rCorners" hidden>
+        <p class="ml-2 p-1 mb-0">Error:</p>
+        <div class="consoleBackground rCorners text-center pb-4 pt-4">
+            <p>{% bs_icon 'router' size='5em' %}</p>
+            <h3 class="">Cannot Connect To The HTTP Server!</h3>
+        </div>
+    </div>
+
 </body>
 
 </html>

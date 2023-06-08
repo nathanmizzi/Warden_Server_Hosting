@@ -21,12 +21,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-z6@n247kv(c(ig*e6ca5ahlca06yxf0nz!o5-3^w#h4_e#p5+2'
+SECRET_KEY = 'x@a68f8k(z)53-=2i-lvc7h$0w7nhzu+q-$v4kkdz_*frz2v^u'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -37,6 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'bootstrap4',
+    'corsheaders',
     'django_bootstrap_icons',
     'django.contrib.messages',
     'django.contrib.staticfiles',
@@ -44,6 +43,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -89,7 +89,7 @@ DATABASES = {
         'ENGINE': 'mssql',
         'NAME': 'Warden_DB',
         #For Home PC
-        #'HOST': 'WINDOWS-K99SDNU\SQLEXPRESS',
+        # 'HOST': 'WINDOWS-K99SDNU\SQLEXPRESS',
         # For Laptop
         'HOST': 'localhost\SQLEXPRESS',
         'PORT': '',
@@ -135,6 +135,23 @@ USE_I18N = True
 
 USE_TZ = True
 
+CORS_ALLOW_ALL_ORIGINS = True # If this is used then `CORS_ALLOWED_ORIGINS` will not have any effect
+CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ALLOWED_ORIGINS = [
+    'http://127.0.0.1:9000',
+    'http://127.0.0.1:8000',
+] # If this is used, then not need to use `CORS_ALLOW_ALL_ORIGINS = True`
+
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    'http://127.0.0.1:9000',
+    'http://127.0.0.1:8000',
+]
+
+CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_WHITELIST = [
+    'http://127.0.0.1:8000'
+]
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/

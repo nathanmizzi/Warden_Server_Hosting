@@ -3,13 +3,19 @@
 
 {% block content %}
 
-    <h1>Add a New Server: </h1>
+    <div id="everythingContainer" class="mt-4">
 
-    <form method="post" class="mt-4">
-        {% csrf_token %}
-        {{ form.as_p }}
+        <h4 class="rCorners3 pl-2 p-1 mb-0 mt-2" style="background-color: #263038">Add a New Server: </h4>
 
-        <input type="submit" value="Create" class="btn btn-info mt-4">
-    </form>
+        <div id="formContainer" class="consoleBackground p-2 rCorners2">
+            <form method="post" class="mt-4">
+                {% csrf_token %}
+                {{ form.as_p }}
+
+                <input type="submit" value="Create" class="btn btn-info mt-4">
+            </form>
+        </div>
+
+    </div>
 
 {% endblock %}

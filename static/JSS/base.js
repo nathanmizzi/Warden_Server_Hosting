@@ -146,7 +146,7 @@ function setCard(serverID, status){
 
     if(status){
 
-        delay(50).then(() => {
+        delay(0).then(() => {
 
             try{
 
@@ -297,55 +297,114 @@ function setCard(serverID, status){
 
 }
 
-$(document).ready(function () {
+// TODO: Finish this function and incorporate it with the homepage
+function pingBackend(){
 
-    findServers()
+    try{
 
-    discoveredServers.forEach((server) => {
+        const Http = new XMLHttpRequest();
+        const url = 'http://127.0.0.1:9000/api/v1/isBackendActive';
 
-        getServerStatus(server).then(promiseVal => {
+        Http.open("GET", url);
+        Http.send();
 
-            console.log("Checking Status of server " + server)
+        Http.onreadystatechange = (e) => {
 
-            if(promiseVal){
+            Http.onerror = (e) =>{
 
-                console.log("Server " + server + " is active!")
+                var pageLoaderElement = document.getElementById("pageLoader");
+                pageLoaderElement.setAttribute("hidden", "true");
 
-                const Http = new XMLHttpRequest();
-                const url = window.location.origin + "/enableServer";
-                const csrf_token = getCookie('csrftoken')
+                try{
+                    var serversDiv = document.getElementById("ServerListBackground")
+                    serversDiv.setAttribute("hidden", "true");
+                }catch{}
 
-                data = {"csrfmiddlewaretoken": csrf_token, "serverID": server}
+                var sourceDiv = document.getElementById("sourceContainer")
+                var noConnectionDiv = document.getElementById("noConnectionDiv");
+                sourceDiv.setAttribute("hidden", "true");
+                noConnectionDiv.removeAttribute("hidden");
 
-                Http.open("POST", url);
-                Http.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-                Http.setRequestHeader("Content-Type", 'application/x-www-form-urlencoded');
-                Http.send(server);
-
-                setCard(server, true)
-
-            }else {
-                console.log("Server " + server + " is offline!")
-
-                const Http = new XMLHttpRequest();
-                const url = window.location.origin + "/disableServer";
-                const csrf_token = getCookie('csrftoken')
-
-                data = {"csrfmiddlewaretoken": csrf_token, "serverID": server}
-
-                Http.open("POST", url);
-                Http.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-                Http.setRequestHeader("Content-Type", 'application/x-www-form-urlencoded');
-                Http.send(server);
-
-                setCard(server, false)
-
+                return false
             }
 
-        }).catch(error => {
-            console.log(error)
-        })
+            if (Http.readyState === 4) {
 
-    });
+                var pageLoaderElement = document.getElementById("pageLoader");
+                pageLoaderElement.setAttribute("hidden", "true");
+
+                try{
+                    var serversDiv = document.getElementById("ServerListBackground")
+                    serversDiv.removeAttribute("hidden");
+                }catch{}
+
+                var sourceDiv = document.getElementById("sourceContainer")
+                var noConnectionDiv = document.getElementById("noConnectionDiv");
+                noConnectionDiv.setAttribute("hidden", "true");
+                sourceDiv.removeAttribute("hidden");
+                return true
+            }
+        }
+
+    }catch (e){
+        console.log("Failed!")
+        return false
+    }
+
+}
+
+$(document).ready(function () {
+
+    if(pingBackend()){
+
+        findServers()
+
+        discoveredServers.forEach((server) => {
+
+            getServerStatus(server).then(promiseVal => {
+
+                console.log("Checking Status of server " + server)
+
+                if (promiseVal) {
+
+                    console.log("Server " + server + " is active!")
+
+                    const Http = new XMLHttpRequest();
+                    const url = window.location.origin + "/enableServer";
+                    const csrf_token = getCookie('csrftoken')
+
+                    data = {"csrfmiddlewaretoken": csrf_token, "serverID": server}
+
+                    Http.open("POST", url);
+                    Http.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                    Http.setRequestHeader("Content-Type", 'application/x-www-form-urlencoded');
+                    Http.send(server);
+
+                    setCard(server, true)
+
+                } else {
+                    console.log("Server " + server + " is offline!")
+
+                    const Http = new XMLHttpRequest();
+                    const url = window.location.origin + "/disableServer";
+                    const csrf_token = getCookie('csrftoken')
+
+                    data = {"csrfmiddlewaretoken": csrf_token, "serverID": server}
+
+                    Http.open("POST", url);
+                    Http.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                    Http.setRequestHeader("Content-Type", 'application/x-www-form-urlencoded');
+                    Http.send(server);
+
+                    setCard(server, false)
+
+                }
+
+            }).catch(error => {
+                console.log(error)
+            })
+
+        });
+    }
 
 });

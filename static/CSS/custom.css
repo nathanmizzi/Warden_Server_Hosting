@@ -1,3 +1,9 @@
+html, body {
+    height: 100%;
+    min-height: 100%;
+    -webkit-background-size: 100%;
+}
+
 .backgroundImage-wrap {
   overflow: hidden;
   position: relative;
@@ -22,6 +28,19 @@
 .serverCover {
   height: 8.2em;
   width: 19em;
+}
+
+.pageLoader {
+  position: absolute;
+  left: 46%;
+  top: 47%;
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #17A2B8;
+  width: 100px;
+  height: 100px;
+  animation: spin 2s linear infinite;
+  z-index: 10;
 }
 
 .loader {
@@ -70,6 +89,10 @@
    border-radius: 0px 0px 10px 10px;
 }
 
+.rCorners3 {
+   border-radius: 10px 10px 0px 0px;
+}
+
 .terminalBlinking::after {
   content: "";
   top: 0;
@@ -91,6 +114,14 @@
   -webkit-animation: blink 1s step-end infinite;
   animation: blink 1s step-end infinite;
   z-index: 10;
+}
+
+#noConnectionDiv {
+    max-width: 40em;
+    vertical-align: center;
+    horiz-align: center;
+    margin-left: 23em;
+    margin-top: 10em;
 }
 
 @-webkit-keyframes blink {

@@ -18,8 +18,8 @@ class AddServerForm(forms.ModelForm):
         model = Server
         fields = ['Name', 'Description', 'Game', 'Modpack']
         widgets = {
-            'Name': forms.TextInput(attrs={'class': 'form-control col-sm-3'}),
-            'Description': forms.TextInput(attrs={'class': 'form-control col-sm-3'}),
-            'Game': forms.TextInput(attrs={'class': 'form-control col-sm-3'}),
-            'Modpack': forms.TextInput(attrs={'class': 'form-control col-sm-3'}),
+            'Name': forms.TextInput(attrs={'class': 'form-control col-sm-6'}),
+            'Description': forms.TextInput(attrs={'class': 'form-control col-sm-6'}),
+            'Game': forms.Select(choices=[("Minecraft", "Minecraft"), ("Rust", "Rust")], attrs={'class': 'form-control col-sm-3'}),
+            'Modpack': forms.Select(choices=[("Vanilla", "Vanilla"), ("Vault Hunters", "Vault Hunters")], attrs={'class': 'form-control col-sm-3'}),
         }
