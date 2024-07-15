@@ -117,11 +117,33 @@ html, body {
 }
 
 #noConnectionDiv {
+    position: fixed;
     max-width: 40em;
-    vertical-align: center;
-    horiz-align: center;
-    margin-left: 23em;
-    margin-top: 10em;
+    min-width: 40em;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+#loginDiv {
+    position: fixed;
+    max-width: 40em;
+    min-width: 40em;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+#logoutDiv {
+    position: fixed;
+    max-width: 40em;
+    min-width: 40em;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
 }
 
 @-webkit-keyframes blink {

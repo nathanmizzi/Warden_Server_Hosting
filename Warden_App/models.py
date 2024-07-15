@@ -1,5 +1,4 @@
 import datetime
-
 from django import forms
 from django.db import models
 
@@ -11,7 +10,7 @@ class Server(models.Model):
     Game = models.TextField()
     Modpack = models.CharField(max_length=255, null=True)
     CoverImageLink = models.CharField(max_length=255, null=True)
-    DateCreated = models.DateTimeField(default=datetime.datetime.now())
+    DateCreated = models.DateTimeField(default=None)
 
 class AddServerForm(forms.ModelForm):
     class Meta:
