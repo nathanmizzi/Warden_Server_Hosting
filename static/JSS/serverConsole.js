@@ -1,4 +1,5 @@
 let buttonClicked = false;
+let debugMode = false;
 
 function clearConsoleContent() {
     consoleElement = document.getElementById("consolePrevious");
@@ -27,7 +28,7 @@ function getServerLog() {
             log = Parsedresponse["content"]
             parsedConsoleOutput = log.split("\n")
 
-            addLine(log)
+            addLine(log, true)
 
         }else {
             console.log("HTTP Ready State Was: " + Http.readyState)
@@ -37,7 +38,55 @@ function getServerLog() {
 
 }
 
+// TODO: Make url variables dynamic depending on the serverID
+async function getServerLogAsync() {
+
+    const Http = new XMLHttpRequest();
+    const url = 'http://127.0.0.1:9000/api/v1/getLog/1';
+
+    Http.open("GET", url);
+    Http.send();
+
+    Http.onreadystatechange = (e) => {
+
+        if (Http.readyState === 4) {
+
+            index = Http.responseText.indexOf("}")
+
+            HTTPResponse = Http.responseText.slice(0, index + 1)
+
+            Parsedresponse = JSON.parse(HTTPResponse)
+
+            // Begin comparison with already displayed content
+
+            log = Parsedresponse["content"]
+
+            var consoleDiv = document.getElementById("consolePrevious");
+
+            currentLog = consoleDiv.innerText;
+
+            var originalConsoleOutput = log;
+
+            originalConsoleOutput = originalConsoleOutput.replace(/\n/g, '\n');
+
+            if (currentLog.trim() !== originalConsoleOutput.trim()) {
+                clearConsoleContent();
+                parsedConsoleOutput = log.split("\n");
+                addLine(log, false);
+            }
+
+        }else {
+            if(debugMode !== false){
+                console.log("HTTP Ready State Was: " + Http.readyState)
+            }
+        }
+
+    }
+
+}
+
 function enterCommand(){
+
     commandInputBox = document.getElementById("consoleInput")
     commandText = commandInputBox.innerText
 
@@ -51,7 +100,7 @@ function enterCommand(){
     Http.send();
 }
 
-function addLine(stringToAdd){
+function addLine(stringToAdd, userinputted){
 
     username = document.getElementById("consoleCurrent").innerText.split(" ")[0];
     consoleElement = document.getElementById("consolePrevious");
@@ -63,11 +112,21 @@ function addLine(stringToAdd){
     lineToAdd.classList.add("mb-0");
     lineToAdd.innerText = stringToAdd;
 
-    input.innerText = "";
+    if(userinputted === true) {
+        input.innerText = "";
+    }
+
     consoleElement.appendChild(lineToAdd);
 
     consoleElement.scrollTop = consoleElement.scrollHeight;
 
+}
+
+async function startPolling(interval) {
+    while (true) {
+        await getServerLogAsync();
+        await new Promise(resolve => setTimeout(resolve, interval));
+    }
 }
 
 $(document).ready(function () {
@@ -92,11 +151,14 @@ $(document).ready(function () {
       if (event.key === "Enter") {
         event.preventDefault();
         enterCommand();
-        clearConsoleContent();
-        getServerLog();
+        //clearConsoleContent();
+        //getServerLog();
       }
     });
 
-    getServerLog()
+    //getServerLog();
+
+    // Handles looping and getting updated logs.
+    startPolling(500);
 
 });

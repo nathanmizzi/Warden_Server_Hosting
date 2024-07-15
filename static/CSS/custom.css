@@ -135,3 +135,11 @@ html, body {
   50% { opacity: 0.0; }
   100% { opacity: 1.0; }
 }
+
+.spinning {animation: spin 2s linear infinite; /* Apply the spinning animation */
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); } /* Start at 0 degrees */
+    100% { transform: rotate(-360deg); } /* End at 360 degrees */
+}

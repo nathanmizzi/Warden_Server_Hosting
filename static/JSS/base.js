@@ -40,6 +40,8 @@ function startServer(serverID){
 
     Http.onreadystatechange = (e) => {
 
+        console.log("HTTP Ready State Was: " + Http.readyState)
+
         if (Http.readyState === 4) {
 
             card.classList.remove("loading-darken")
