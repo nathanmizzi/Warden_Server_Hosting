@@ -87,17 +87,42 @@ async function getServerLogAsync() {
 
 function enterCommand(){
 
+    enterCommandAsync()
+    .then(data => {
+        console.log('[Info] Command Sent Succesfully');
+    })
+    .catch(error => {
+        console.error('[ERROR] Send Command Error: ', error);
+    });
+
+}
+
+async function enterCommandAsync() {
+
     commandInputBox = document.getElementById("consoleInput")
     commandText = commandInputBox.innerText
 
-    console.log("Command Sent: " + commandText)
+    url = 'http://127.0.0.1:9000/api/v1/commandServer/1'
+    data = {
+        'CommandContent': commandText
+    }
 
-    const Http = new XMLHttpRequest();
-    const url = 'http://127.0.0.1:9000/api/v1/commandServer/1';
+    const response = await fetch(url, {
+        method: 'POST', // *GET, POST, PUT, DELETE, etc.
+        mode: 'cors', // no-cors, *cors, same-origin
+        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: 'same-origin', // include, *same-origin, omit
+        headers: {
+            'Content-Type': 'application/json'
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        redirect: 'follow', // manual, *follow, error
+        referrerPolicy: 'no-referrer', // no-referrer, *client
+        body: JSON.stringify(data) // body data type must match "Content-Type" header
+    });
 
-    Http.open("GET", url);
-    Http.setRequestHeader("CommandContent", commandText)
-    Http.send();
+    return response.json(); // parses JSON response into native JavaScript objects
+
 }
 
 function addLine(stringToAdd, userinputted){

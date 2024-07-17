@@ -1,5 +1,5 @@
 discoveredServers = []
-backendIP = "http://127.0.0.1:8081"
+baseUrl = 'http://127.0.0.1:9000'
 
 function delay(time) {
   return new Promise(resolve => setTimeout(resolve, time));
@@ -34,7 +34,7 @@ function startServer(serverID){
     loader.removeAttribute("hidden")
 
     const Http = new XMLHttpRequest();
-    const url = 'http://127.0.0.1:8081/api/v1/startServer/' + serverID;
+    const url = baseUrl + '/api/v1/startServer/' + serverID;
 
     Http.open("GET", url);
     Http.send();
@@ -73,7 +73,7 @@ function stopServer(serverID){
     loader.removeAttribute("hidden")
 
     const Http = new XMLHttpRequest();
-    const url = 'http://127.0.0.1:8081/api/v1/killServer/' + serverID;
+    const url = baseUrl + '/api/v1/killServer/' + serverID;
 
     Http.open("GET", url);
     Http.send();
@@ -99,7 +99,7 @@ async function getServerStatus(serverID){
     return new Promise(function(resolve, reject) {
 
         const Http = new XMLHttpRequest();
-        const url = "http://127.0.0.1:8081/api/v1/getServerStatus/" + serverID;
+        const url = baseUrl + "/api/v1/getServerStatus/" + serverID;
 
         Http.onreadystatechange = (e) => {
 
@@ -301,12 +301,12 @@ function setCard(serverID, status){
 }
 
 // TODO: Finish this function and incorporate it with the homepage
-function pingBackend(){
+async function pingBackend(){
 
     try{
 
         const Http = new XMLHttpRequest();
-        const url = backendIP + '/api/v1/isBackendActive';
+        const url = baseUrl + '/api/v1/isBackendActive';
 
         Http.open("GET", url);
         Http.send();
@@ -333,42 +333,20 @@ function pingBackend(){
 
             if (Http.readyState === 4) {
 
-                if(Http.response.code != 200){
+                var pageLoaderElement = document.getElementById("pageLoader");
+                pageLoaderElement.setAttribute("hidden", "true");
 
-                    var pageLoaderElement = document.getElementById("pageLoader");
-                    pageLoaderElement.setAttribute("hidden", "true");
+                try{
+                    var serversDiv = document.getElementById("ServerListBackground")
+                    serversDiv.removeAttribute("hidden");
+                }catch{}
 
-                    try{
-                        var serversDiv = document.getElementById("ServerListBackground")
-                        serversDiv.setAttribute("hidden", "true");
-                    }catch{}
-
-                    var sourceDiv = document.getElementById("sourceContainer")
-                    var noConnectionDiv = document.getElementById("noConnectionDiv");
-                    sourceDiv.setAttribute("hidden", "true");
-                    noConnectionDiv.removeAttribute("hidden");
-
-                    return false
-                }else {
-
-                    var pageLoaderElement = document.getElementById("pageLoader");
-                    pageLoaderElement.setAttribute("hidden", "true");
-
-                    try {
-                        var serversDiv = document.getElementById("ServerListBackground")
-                        serversDiv.removeAttribute("hidden");
-                    } catch {
-                    }
-
-                    var sourceDiv = document.getElementById("sourceContainer")
-                    var noConnectionDiv = document.getElementById("noConnectionDiv");
-                    noConnectionDiv.setAttribute("hidden", "true");
-                    sourceDiv.removeAttribute("hidden");
-                    return true
-
-                }
+                var sourceDiv = document.getElementById("sourceContainer")
+                var noConnectionDiv = document.getElementById("noConnectionDiv");
+                noConnectionDiv.setAttribute("hidden", "true");
+                sourceDiv.removeAttribute("hidden");
+                return true
             }
-
         }
 
     }catch (e){
