@@ -1,5 +1,6 @@
 discoveredServers = []
 baseUrl = 'http://127.0.0.1:9000'
+activeServers = 0
 
 function delay(time) {
   return new Promise(resolve => setTimeout(resolve, time));
@@ -125,6 +126,40 @@ async function getServerStatus(serverID){
         Http.send();
 
     });
+}
+
+async function getConcurrentServerSlots(){
+
+        return new Promise(function(resolve, reject) {
+
+        const Http = new XMLHttpRequest();
+        const url = baseUrl + "/api/v1/getConcurrentServerSlots";
+
+        Http.onreadystatechange = (e) => {
+
+            if (Http.readyState === 4) {
+
+                index = Http.responseText.indexOf("}")
+
+                response = Http.responseText.slice(0, index + 1)
+
+                var response = JSON.parse(response)
+                serverStatus = response["concurrentServerSlots"]
+
+                resolve(serverStatus)
+
+            }
+        }
+
+        Http.onerror = (e) => {
+            reject("Error With Async Call!")
+        }
+
+        Http.open("GET", url);
+        Http.send();
+
+    });
+
 }
 
 function findServers(){
@@ -362,6 +397,15 @@ $(document).ready(function () {
 
         findServers()
 
+        getConcurrentServerSlots().then(promiseVal => {
+
+        concurrentServersSpan = document.getElementById("serverLimitSpan");
+        concurrentServersSpan.innerText = promiseVal.toString();
+
+        }).catch(error => {
+                console.log(error)
+        });
+
         discoveredServers.forEach((server) => {
 
             getServerStatus(server).then(promiseVal => {
@@ -371,6 +415,8 @@ $(document).ready(function () {
                 if (promiseVal) {
 
                     console.log("Server " + server + " is active!")
+
+                    activeServers = activeServers + 1;
 
                     const Http = new XMLHttpRequest();
                     const url = window.location.origin + "/enableServer";
@@ -385,7 +431,8 @@ $(document).ready(function () {
 
                     setCard(server, true)
 
-                } else {
+                }
+                else {
                     console.log("Server " + server + " is offline!")
 
                     const Http = new XMLHttpRequest();
@@ -403,11 +450,16 @@ $(document).ready(function () {
 
                 }
 
+                concurrentServersSpan = document.getElementById("activeServersSpan");
+                concurrentServersSpan.innerText = activeServers.toString();
+
             }).catch(error => {
                 console.log(error)
             })
 
         });
+
+
     }
 
 });
